@@ -5,7 +5,6 @@
  */
 package cdhmed.controller;
 
-import cdhmed.model.Conn;
 import cdhmed.model.Medico;
 
 

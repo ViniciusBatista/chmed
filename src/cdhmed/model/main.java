@@ -6,6 +6,7 @@
 package cdhmed.model;
 
 import cdhmed.controller.Controller;
+import cdhmed.view.FrameMedico;
 
 /**
  *
@@ -16,6 +17,8 @@ public class main {
     public static void main(String[] args) {
         //Principal FramePrincipal = new Principal();
         //FramePrincipal.setVisible(true);
-        Controller.addMedico("Emanuel", "000.000.000-00", "15152");
+        //Controller.addMedico("Angela", "", "15152");
+        FrameMedico frameMed = new FrameMedico();
+        frameMed.setVisible(true);
     }
 }
