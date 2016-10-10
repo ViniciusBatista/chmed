@@ -5,6 +5,9 @@
  */
 package cdhmed.model;
 
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author batista
@@ -50,5 +53,14 @@ public class Medico {
     public void setCrm(String crm) {
         this.crm = crm;
     }
-    
+
+    public void addMedico(Medico medico) {
+        ArrayList<String> listaCpf = Conn.consultaCpf();
+        if (listaCpf.contains(medico.getCpf())) {
+            JOptionPane.showMessageDialog(null, "CPF já cadastrado", "CPF Invalido", 0);
+        } else {
+            Conn.addMedicoDAO(medico);
+        }
+    }
+
 }

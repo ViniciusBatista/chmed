@@ -5,6 +5,9 @@
  */
 package cdhmed.controller;
 
+import cdhmed.model.Conn;
+import cdhmed.model.Medico;
+
 
 /**
  *
@@ -12,4 +15,14 @@ package cdhmed.controller;
  */
 public class Controller {
 
+    public Controller() {
+    }
+    
+    public static void addMedico (String nome, String cpf, String crm){
+        Medico medico = new Medico();
+        medico.setNome(nome);
+        medico.setCpf(cpf);
+        medico.setCrm(crm);
+        medico.addMedico(medico);
+    }
 }
