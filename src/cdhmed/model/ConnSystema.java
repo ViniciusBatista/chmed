@@ -18,9 +18,9 @@ public class ConnSystema {
 
     public static void conectSystema() {
         String Driver = "org.postgresql.Driver";
-        String user = "emanuel";
-        String password = "88122894";
-        String url = "jdbc:postgresql://192.168.1.1:5432/systema";
+        String user = "";
+        String password = "";
+        String url = "jdbc:postgresql://5432/systema";
 
         try {
             Class.forName(Driver);
@@ -69,23 +69,4 @@ public class ConnSystema {
         }
         return listaProcedimento;
     }
-
-//            ArrayList<Medico> listaMedico = new ArrayList();
-//        String SQL = "select * from chmed.medico where nome like '%" + nome + "%';";
-//        try {
-//            conect();
-//            ResultSet rs = executeQuery(SQL);
-//            while (rs.next()) {
-//                Medico med = new Medico();
-//                med.setIdMedico(rs.getInt("id"));
-//                med.setNome(rs.getString("nome"));
-//                med.setCpf(rs.getString("cpf"));
-//                med.setCrm(rs.getString("crm"));
-//                listaMedico.add(med);
-//            }
-//        } catch (SQLException e) {
-//            System.out.println("Erro sql Pesquisa med");
-//        }
-//        return listaMedico;
-//    }
 }
