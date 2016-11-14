@@ -9,7 +9,13 @@ import cdhmed.model.Conn;
 import cdhmed.model.ConnSystema;
 
 import cdhmed.model.Medico;
+import cdhmed.model.Recibo;
+import cdhmed.view.FrameRecibo;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -50,8 +56,46 @@ public class Controller {
     public static void excluirMed(int id) {
         Conn.excluirMedDAO(id);
     }
-    
-    public static ArrayList consultaProcedimento (){
+
+    public static ArrayList consultaProcedimento() {
         return ConnSystema.consultaProcedimento();
     }
+
+    public static void addRecibo(String procedimento, String data, Double valor, int num_recibo, int id_medico) {
+        Recibo recibo = new Recibo();
+        recibo.setProcedimento(procedimento);
+        recibo.setData(data);
+        recibo.setValor(valor);
+        recibo.setNum_recibo(num_recibo);
+        recibo.setIdMedico(id_medico);
+        Conn.addReciboDAO(recibo);
+    }
+
+    public static ArrayList<Recibo> pesquisaAllRecibo() {
+        ArrayList<Recibo> listaRecibo = Conn.pesquisaAllReciboDAO();
+        return listaRecibo;
+    }
+
+    public static Recibo pesquisaReciboNumero(int numero) {
+        Recibo recibo = Conn.pesquisaReciboNumeroDAO(numero);
+        return recibo;
+    }
+
+    public static String formataData(String dataBanco) {//Formatar data
+        dataBanco = dataBanco.replace("-", "");
+        String data = "";
+        SimpleDateFormat formata1 = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat formato2 = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            data = formato2.format(formata1.parse(dataBanco));
+        } catch (ParseException ex) {
+            Logger.getLogger(FrameRecibo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return data;
+    }
+
+    public static void excluirRecibo(int num_recibo) {
+        Conn.deleteReciboDAO(num_recibo);
+    }
+
 }

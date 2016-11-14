@@ -184,7 +184,6 @@ public class FrameMedico extends javax.swing.JFrame {
     private void jButtonExcluirMedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirMedActionPerformed
         Controller.excluirMed((int) jTable1.getValueAt(jTable1.getSelectedRow(),0));
         inserirPesquisaMedico();
-        
     }//GEN-LAST:event_jButtonExcluirMedActionPerformed
 
     public void inserirPesquisaMedico() {

@@ -5,6 +5,18 @@
  */
 package cdhmed.view;
 
+import cdhmed.controller.Controller;
+import cdhmed.model.Medico;
+import cdhmed.model.Recibo;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author batista
@@ -16,6 +28,7 @@ public class FrameRecibo extends javax.swing.JFrame {
      */
     public FrameRecibo() {
         initComponents();
+        inserirPesquisaRecibo();
     }
 
     /**
@@ -70,6 +83,14 @@ public class FrameRecibo extends javax.swing.JFrame {
                 jButton4ActionPerformed(evt);
             }
         });
+        jButton4.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton4KeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jButton4KeyTyped(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -98,12 +119,21 @@ public class FrameRecibo extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
         jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(50);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(30);
             jTable1.getColumnModel().getColumn(1).setPreferredWidth(120);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(20);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(120);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(15);
             jTable1.getColumnModel().getColumn(4).setPreferredWidth(50);
         }
+
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField1KeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField1KeyTyped(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel1.setText("Informe o número do recibo");
@@ -115,21 +145,22 @@ public class FrameRecibo extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(80, 80, 80)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 312, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -142,13 +173,13 @@ public class FrameRecibo extends javax.swing.JFrame {
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -156,17 +187,106 @@ public class FrameRecibo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        Controller.excluirRecibo((int) jTable1.getValueAt(jTable1.getSelectedRow(),0));
+        inserirPesquisaRecibo();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+//        DefaultTableModel tabela = (DefaultTableModel) jTable1.getModel();
+//        tabela.setNumRows(0);
+        if (jTextField1.getText().isEmpty()) {
+            inserirPesquisaRecibo();
+        } else {
+            inserirPesquisaReciboNum();
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    public void inserirPesquisaReciboNum() {
+        setLocationRelativeTo(null);
+        jTable1.getColumnModel().getColumn(0).setHeaderValue("Número Recibo");//Colocar o titulo da coluna
+        jTable1.getColumnModel().getColumn(1).setHeaderValue("Nome do médico");//Colocar o titulo da coluna
+        jTable1.getColumnModel().getColumn(2).setHeaderValue("Procedimento");//Colocar o titulo da coluna
+        jTable1.getColumnModel().getColumn(3).setHeaderValue("Valor");//Colocar o titulo da coluna
+        jTable1.getColumnModel().getColumn(4).setHeaderValue("Data");//Colocar o titulo da coluna
+
+        jTable1.setCellSelectionEnabled(false);
+        jTable1.setRowSelectionAllowed(true);
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setNumRows(0);
+        Recibo recibo = Controller.pesquisaReciboNumero(Integer.parseInt(jTextField1.getText()));
+        if (recibo != null) {
+            Object[] fila = new Object[model.getColumnCount()];
+            Medico med = Controller.pesquisaIdMed(recibo.getIdMedico());
+            fila[0] = recibo.getNum_recibo();
+            fila[1] = med.getNome();
+            fila[2] = recibo.getProcedimento();
+            fila[3] = recibo.getValor();
+            fila[4] = Controller.formataData(recibo.getData());
+            model.addRow(fila);
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum Recibo Encontrado", "Cadastro vazio", 0);
+        }
+    }
+
+    public void inserirPesquisaRecibo() {
+        setLocationRelativeTo(null);
+        jTable1.getColumnModel().getColumn(0).setHeaderValue("Número Recibo");//Colocar o titulo da coluna
+        jTable1.getColumnModel().getColumn(1).setHeaderValue("Nome do médico");//Colocar o titulo da coluna
+        jTable1.getColumnModel().getColumn(2).setHeaderValue("Procedimento");//Colocar o titulo da coluna
+        jTable1.getColumnModel().getColumn(3).setHeaderValue("Valor");//Colocar o titulo da coluna
+        jTable1.getColumnModel().getColumn(4).setHeaderValue("Data");//Colocar o titulo da coluna
+
+        jTable1.setCellSelectionEnabled(false);
+        jTable1.setRowSelectionAllowed(true);
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setNumRows(0);
+        ArrayList<Recibo> listaRecibo = Controller.pesquisaAllRecibo();
+        if (!listaRecibo.isEmpty()) {
+            Object[] fila = new Object[model.getColumnCount()];
+            for (int i = 0; i < listaRecibo.size(); i++) {
+                Medico med = Controller.pesquisaIdMed(listaRecibo.get(i).getIdMedico());
+                fila[0] = listaRecibo.get(i).getNum_recibo();
+                fila[1] = med.getNome();
+                fila[2] = listaRecibo.get(i).getProcedimento();
+                fila[3] = listaRecibo.get(i).getValor();
+                fila[4] = Controller.formataData(listaRecibo.get(i).getData());
+                model.addRow(fila);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum Recibo Cadastrado", "Cadastro vazio", 0);
+        }
+    }
+
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         FrameNovoRecibo frameNovoRecibo = new FrameNovoRecibo();
         frameNovoRecibo.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton4KeyTyped
+
+    }//GEN-LAST:event_jButton4KeyTyped
+
+    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+
+    }//GEN-LAST:event_jTextField1KeyTyped
+
+    private void jButton4KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton4KeyPressed
+        if (evt.getKeyText(evt.getKeyCode()).equals("Enter")) {
+            if (jTextField1.getText().isEmpty()) {
+                inserirPesquisaRecibo();
+            } else {
+                inserirPesquisaReciboNum();
+            }
+        }
+
+    }//GEN-LAST:event_jButton4KeyPressed
+
+    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+        jButton4KeyPressed(evt);
+    }//GEN-LAST:event_jTextField1KeyPressed
 
     /**
      * @param args the command line arguments
