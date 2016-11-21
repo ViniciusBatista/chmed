@@ -171,18 +171,28 @@ public class FrameMedico extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButtonNovoMedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoMedActionPerformed
-        FrameCadMedico cadMedico =  new FrameCadMedico();
+        FrameCadMedico cadMedico = new FrameCadMedico();
         cadMedico.setVisible(true);
     }//GEN-LAST:event_jButtonNovoMedActionPerformed
 
     private void jButtonAlterarMedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarMedActionPerformed
-      FrameAltMedico frameAlterar = new FrameAltMedico();
-      frameAlterar.insereDadosCamposdeTexto((int) jTable1.getValueAt(jTable1.getSelectedRow(),0));
-      frameAlterar.setVisible(true);
+        FrameAltMedico frameAlterar = new FrameAltMedico();
+        frameAlterar.insereDadosCamposdeTexto((int) jTable1.getValueAt(jTable1.getSelectedRow(), 0));
+        frameAlterar.setVisible(true);
     }//GEN-LAST:event_jButtonAlterarMedActionPerformed
 
     private void jButtonExcluirMedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirMedActionPerformed
-        Controller.excluirMed((int) jTable1.getValueAt(jTable1.getSelectedRow(),0));
+        if (jTable1.getSelectedRow() >= 0) {
+            if ((JOptionPane.showConfirmDialog(null, "Você deseja realmente excluir o cadastro selecionado")) == 0) {
+                if (Controller.excluirMed((int) jTable1.getValueAt(jTable1.getSelectedRow(), 0))) {
+                    JOptionPane.showMessageDialog(null, "Excluido com sucesso", "Sucesso", 2);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Não foi possivel excluir\n*Médico vinculado com algum recibo", "[ERRO]", 0);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione um médico para excluir", "[ERRO]", 0);
+        }
         inserirPesquisaMedico();
     }//GEN-LAST:event_jButtonExcluirMedActionPerformed
 
@@ -192,7 +202,7 @@ public class FrameMedico extends javax.swing.JFrame {
         jTable1.getColumnModel().getColumn(1).setHeaderValue("Nome");//Colocar o titulo da coluna
         jTable1.getColumnModel().getColumn(2).setHeaderValue("CPF");//Colocar o titulo da coluna
         jTable1.getColumnModel().getColumn(2).setHeaderValue("CRM");//Colocar o titulo da coluna
-      
+
         jTable1.setCellSelectionEnabled(false);
         jTable1.setRowSelectionAllowed(true);
 
@@ -208,7 +218,9 @@ public class FrameMedico extends javax.swing.JFrame {
                 fila[3] = listaMedico.get(i).getCrm();
                 model.addRow(fila);
             }
-        }else JOptionPane.showMessageDialog(null, "Nenhum cadastro encontrado", "Cadastro vazio", 0);
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum cadastro encontrado", "Cadastro vazio", 0);
+        }
     }
 
     /**

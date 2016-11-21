@@ -9,6 +9,7 @@ import cdhmed.controller.Controller;
 import cdhmed.model.Medico;
 import java.text.ParseException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 
@@ -58,6 +59,12 @@ public class FrameNovoRecibo extends javax.swing.JFrame {
             }
         });
 
+        jComboBoxProcedimento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jComboBoxProcedimentoKeyPressed(evt);
+            }
+        });
+
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Selecione o procedimento");
 
@@ -65,6 +72,17 @@ public class FrameNovoRecibo extends javax.swing.JFrame {
         jTextFieldNumRecibo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldNumReciboActionPerformed(evt);
+            }
+        });
+        jTextFieldNumRecibo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldNumReciboKeyPressed(evt);
+            }
+        });
+
+        jComboBoxMedico.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jComboBoxMedicoKeyPressed(evt);
             }
         });
 
@@ -84,11 +102,22 @@ public class FrameNovoRecibo extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel5.setText("Informe a data");
 
+        jFormattedTextFieldData.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jFormattedTextFieldDataKeyPressed(evt);
+            }
+        });
+
         jButtonGravar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cdhmed/etc/Gravar 32x32.png"))); // NOI18N
         jButtonGravar.setText("Gravar");
         jButtonGravar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonGravarActionPerformed(evt);
+            }
+        });
+        jButtonGravar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButtonGravarKeyPressed(evt);
             }
         });
 
@@ -97,6 +126,12 @@ public class FrameNovoRecibo extends javax.swing.JFrame {
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCancelarActionPerformed(evt);
+            }
+        });
+
+        jFormattedTextFieldValor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jFormattedTextFieldValorKeyPressed(evt);
             }
         });
 
@@ -188,14 +223,26 @@ public class FrameNovoRecibo extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldNumReciboActionPerformed
 
     private void jButtonGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGravarActionPerformed
-        String procedimento = jComboBoxProcedimento.getSelectedItem().toString();
-        String data = jFormattedTextFieldData.getText().replace("/", "");
-        Double valor = Double.parseDouble(jFormattedTextFieldValor.getText().replace(",", "."));
-        int num_recibo = Integer.parseInt(jTextFieldNumRecibo.getText());
-        ArrayList<Medico> listaMedico = Controller.pesquisaMed(jComboBoxMedico.getSelectedItem().toString());
-        int id_medico = listaMedico.get(0).getIdMedico();
-         System.out.println(procedimento + data + valor +  num_recibo + "ID medico"+id_medico );
-        Controller.addRecibo(procedimento, data, valor, num_recibo, id_medico);
+        if (jTextFieldNumRecibo.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Erro no Cadastro Verifique os Campos", "Campo vazio", 0);
+        } else {
+            String procedimento = jComboBoxProcedimento.getSelectedItem().toString();
+            String data = jFormattedTextFieldData.getText().replace("/", "");
+            Double valor = Double.parseDouble(jFormattedTextFieldValor.getText().replace(",", "."));
+            int num_recibo = Integer.parseInt(jTextFieldNumRecibo.getText());
+            ArrayList<Medico> listaMedico = Controller.pesquisaMed(jComboBoxMedico.getSelectedItem().toString());
+            int id_medico = listaMedico.get(0).getIdMedico();
+            boolean bol = Controller.verificaNumRecibo(num_recibo);
+            if (bol) {//não esta funcionando
+                if ((Controller.addRecibo(procedimento, data, valor, num_recibo, id_medico)) == true) {
+                    JOptionPane.showMessageDialog(null, "Cadastrado com sucesso", "Cadastro OK", 2);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Erro no Cadastro Verifique os Campos", "Cadastro vazio", 0);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "ERRO número de recivo já cadastrado", "ERRO", 0);
+            }
+        }
     }//GEN-LAST:event_jButtonGravarActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -210,6 +257,58 @@ public class FrameNovoRecibo extends javax.swing.JFrame {
             System.err.println(ex.getMessage());
         }
     }//GEN-LAST:event_formWindowOpened
+
+    private void jTextFieldNumReciboKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNumReciboKeyPressed
+        if (evt.getKeyText(evt.getKeyCode()).equals("Enter")) {
+            jTextFieldNumRecibo.transferFocus();
+        }
+    }//GEN-LAST:event_jTextFieldNumReciboKeyPressed
+
+    private void jFormattedTextFieldValorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextFieldValorKeyPressed
+        if (evt.getKeyText(evt.getKeyCode()).equals("Enter")) {
+            jFormattedTextFieldValor.transferFocus();
+        }
+    }//GEN-LAST:event_jFormattedTextFieldValorKeyPressed
+
+    private void jFormattedTextFieldDataKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextFieldDataKeyPressed
+        if (evt.getKeyText(evt.getKeyCode()).equals("Enter")) {
+            jFormattedTextFieldData.transferFocus();
+        }
+    }//GEN-LAST:event_jFormattedTextFieldDataKeyPressed
+
+    private void jComboBoxProcedimentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBoxProcedimentoKeyPressed
+        if (evt.getKeyText(evt.getKeyCode()).equals("Enter")) {
+            jComboBoxProcedimento.transferFocus();
+        }
+    }//GEN-LAST:event_jComboBoxProcedimentoKeyPressed
+
+    private void jComboBoxMedicoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBoxMedicoKeyPressed
+        if (evt.getKeyText(evt.getKeyCode()).equals("Enter")) {
+            jComboBoxMedico.transferFocus();
+        }
+    }//GEN-LAST:event_jComboBoxMedicoKeyPressed
+
+    private void jButtonGravarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonGravarKeyPressed
+        if (evt.getKeyText(evt.getKeyCode()).equals("Enter")) {
+            if (jTextFieldNumRecibo.getText().isEmpty() && jFormattedTextFieldData.getText().isEmpty() && jFormattedTextFieldValor.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Erro no Cadastro Verifique os Campos", "Campo vazio", 0);
+            } else {
+                String procedimento = jComboBoxProcedimento.getSelectedItem().toString();
+                String data = jFormattedTextFieldData.getText().replace("/", "");
+                Double valor = Double.parseDouble(jFormattedTextFieldValor.getText().replace(",", "."));
+                int num_recibo = Integer.parseInt(jTextFieldNumRecibo.getText());
+                ArrayList<Medico> listaMedico = Controller.pesquisaMed(jComboBoxMedico.getSelectedItem().toString());
+                int id_medico = listaMedico.get(0).getIdMedico();
+                System.out.println(procedimento + data + valor + num_recibo + "ID medico" + id_medico);
+                if ((Controller.addRecibo(procedimento, data, valor, num_recibo, id_medico)) == true) {
+                    JOptionPane.showMessageDialog(null, "Cadastrado com sucesso", "Cadastro OK", 2);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Erro no Cadastro Verifique os Campos", "Cadastro vazio", 0);
+                }
+                dispose();
+            }
+        }
+    }//GEN-LAST:event_jButtonGravarKeyPressed
 
     private void inserirDadosnoComboBox() {
         ArrayList<Medico> listaMed = Controller.pesquisaAllMed();

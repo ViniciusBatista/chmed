@@ -53,22 +53,26 @@ public class Controller {
         Conn.atualizarMedDAO(id, nome, cpf, crm);
     }
 
-    public static void excluirMed(int id) {
-        Conn.excluirMedDAO(id);
+    public static boolean excluirMed(int id) {
+        return Conn.excluirMedDAO(id);
     }
 
     public static ArrayList consultaProcedimento() {
         return ConnSystema.consultaProcedimento();
     }
 
-    public static void addRecibo(String procedimento, String data, Double valor, int num_recibo, int id_medico) {
+    public static boolean addRecibo(String procedimento, String data, Double valor, int num_recibo, int id_medico) {
         Recibo recibo = new Recibo();
         recibo.setProcedimento(procedimento);
         recibo.setData(data);
         recibo.setValor(valor);
         recibo.setNum_recibo(num_recibo);
         recibo.setIdMedico(id_medico);
-        Conn.addReciboDAO(recibo);
+        return Conn.addReciboDAO(recibo);
+    }
+    
+    public static boolean verificaNumRecibo(int num_recibo){
+        return Conn.num_recibo_utilizado(num_recibo);
     }
 
     public static ArrayList<Recibo> pesquisaAllRecibo() {
@@ -77,8 +81,7 @@ public class Controller {
     }
 
     public static Recibo pesquisaReciboNumero(int numero) {
-        Recibo recibo = Conn.pesquisaReciboNumeroDAO(numero);
-        return recibo;
+         return Conn.pesquisaReciboNumeroDAO(numero);
     }
 
     public static String formataData(String dataBanco) {//Formatar data
@@ -94,8 +97,12 @@ public class Controller {
         return data;
     }
 
-    public static void excluirRecibo(int num_recibo) {
-        Conn.deleteReciboDAO(num_recibo);
+    public static boolean excluirRecibo(int num_recibo) {
+        return Conn.deleteReciboDAO(num_recibo);
+    }
+    
+    public static void atualizarRecibo (int num_recibo, String procedimento, String data_recibo, double valor, int id_medico){
+        Conn.atualizaReciboDAO(num_recibo, procedimento, data_recibo, valor, id_medico);
     }
 
 }

@@ -42,7 +42,7 @@ public class FrameRecibo extends javax.swing.JFrame {
 
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jButtonExcluir = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -65,13 +65,18 @@ public class FrameRecibo extends javax.swing.JFrame {
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cdhmed/etc/Edit.png"))); // NOI18N
         jButton2.setText("Alterar");
         jButton2.setMaximumSize(new java.awt.Dimension(9, 41));
-
-        jButton3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cdhmed/etc/Excluir.png"))); // NOI18N
-        jButton3.setText("Excluir");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButtonExcluir.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jButtonExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cdhmed/etc/Excluir.png"))); // NOI18N
+        jButtonExcluir.setText("Excluir");
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirActionPerformed(evt);
             }
         });
 
@@ -151,7 +156,7 @@ public class FrameRecibo extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButtonExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,7 +183,7 @@ public class FrameRecibo extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(jButtonExcluir))
                 .addContainerGap())
         );
 
@@ -186,10 +191,20 @@ public class FrameRecibo extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Controller.excluirRecibo((int) jTable1.getValueAt(jTable1.getSelectedRow(),0));
+    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+        if (jTable1.getSelectedRow() >= 0) {
+            if (JOptionPane.showConfirmDialog(null, "Você deseja realmente excluir o cadastro selecionado") == 0) {
+                if (Controller.excluirRecibo((int) jTable1.getValueAt(jTable1.getSelectedRow(), 0))) {
+                    JOptionPane.showMessageDialog(null, "Excluido com sucesso", "excluido", 0);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Erro ao excluir cadastro", "excluido", 2);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione um Recibo para Excluir", "[ERRO]", 0);
+        }
         inserirPesquisaRecibo();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 //        DefaultTableModel tabela = (DefaultTableModel) jTable1.getModel();
@@ -288,6 +303,17 @@ public class FrameRecibo extends javax.swing.JFrame {
         jButton4KeyPressed(evt);
     }//GEN-LAST:event_jTextField1KeyPressed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if (jTable1.getSelectedRow() >= 0) {
+            FrameAltRecibo altRecibo = new FrameAltRecibo();
+            altRecibo.setCodigoSelecionado((int) jTable1.getValueAt(jTable1.getSelectedRow(), 0));
+            altRecibo.insereDadosCamposdeTexto();
+            altRecibo.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione um Recibo para Alterar", "[ERRO]", 0);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -327,8 +353,8 @@ public class FrameRecibo extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButtonExcluir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

@@ -135,6 +135,9 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jComboBoxProcedimentoKeyPressed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
@@ -155,6 +158,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldNumReciboActionPerformed"/>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldNumReciboKeyPressed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="jComboBoxMedico">
@@ -163,6 +167,9 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jComboBoxMedicoKeyPressed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
@@ -211,6 +218,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="jFormattedTextFieldData">
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jFormattedTextFieldDataKeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonGravar">
       <Properties>
@@ -221,6 +231,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGravarActionPerformed"/>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jButtonGravarKeyPressed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonCancelar">
@@ -235,6 +246,9 @@
       </Events>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="jFormattedTextFieldValor">
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jFormattedTextFieldValorKeyPressed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
